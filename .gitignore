@@ -25,6 +25,9 @@ Thumbs.db
 dist/
 build/
 
+# Test coverage
+coverage/
+
 # Uploads (keep folders, ignore files)
 uploads/*
 !uploads/.gitkeep
