@@ -98,10 +98,69 @@ const getAuthHeader = (user) => {
     return { Authorization: `Bearer ${token}` };
 };
 
+/**
+ * Tạo mock episode data
+ */
+const mockEpisodes = {
+    episode1: {
+        id: 1,
+        movieId: 1,
+        episodeNumber: 1,
+        title: 'Episode 1',
+        videoUrl: '/uploads/videos/episode1.mp4',
+        duration: 45,
+    },
+    episode2: {
+        id: 2,
+        movieId: 1,
+        episodeNumber: 2,
+        title: 'Episode 2',
+        videoUrl: '/uploads/videos/episode2.mp4',
+        duration: 50,
+    },
+};
+
+/**
+ * Tạo mock comment data
+ */
+const mockComments = {
+    comment1: {
+        id: 1,
+        userId: 2,
+        movieId: 1,
+        content: 'Great movie!',
+    },
+    comment2: {
+        id: 2,
+        userId: 2,
+        movieId: 1,
+        content: 'I love this movie!',
+    },
+};
+
+/**
+ * Tạo mock favorite data
+ */
+const mockFavorites = {
+    favorite1: {
+        id: 1,
+        userId: 2,
+        movieId: 1,
+    },
+    favorite2: {
+        id: 2,
+        userId: 2,
+        movieId: 2,
+    },
+};
+
 module.exports = {
     generateToken,
     mockUsers,
     mockMovies,
     mockGenres,
+    mockEpisodes,
+    mockComments,
+    mockFavorites,
     getAuthHeader,
 };
