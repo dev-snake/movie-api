@@ -9,6 +9,11 @@ const episodeRoutes = require('./episode.routes');
 const favoriteRoutes = require('./favorite.routes');
 const commentRoutes = require('./comment.routes');
 const uploadRoutes = require('./upload.routes');
+const theaterRoutes = require('./theater.routes');
+const screenRoutes = require('./screen.routes');
+const showtimeRoutes = require('./showtime.routes');
+const bookingRoutes = require('./booking.routes');
+const adminRoutes = require('./admin.routes');
 
 // API Info
 router.get('/', (req, res) => {
@@ -24,6 +29,11 @@ router.get('/', (req, res) => {
             comments: '/api/comments',
             users: '/api/users',
             upload: '/api/upload',
+            theaters: '/api/theaters',
+            screens: '/api/screens',
+            showtimes: '/api/showtimes',
+            bookings: '/api/bookings',
+            admin: '/api/admin',
         },
         documentation: '/api-docs',
     });
@@ -38,5 +48,10 @@ router.use('/favorites', favoriteRoutes);
 router.use('/comments', commentRoutes);
 router.use('/users', userRoutes);
 router.use('/upload', uploadRoutes);
+router.use('/theaters', theaterRoutes);
+router.use('/screens', screenRoutes);
+router.use('/showtimes', showtimeRoutes);
+router.use('/bookings', bookingRoutes);
+router.use('/admin', adminRoutes);
 
 module.exports = router;

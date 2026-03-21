@@ -101,6 +101,12 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'movieId',
             as: 'comments',
         });
+
+        // Movie has many showtimes
+        Movie.hasMany(models.Showtime, {
+            foreignKey: 'movieId',
+            as: 'showtimes',
+        });
     };
 
     return Movie;
