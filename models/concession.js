@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: true,
             },
             category: {
-                type: DataTypes.ENUM('combo', 'popcorn', 'drink', 'snack'),
+                type: DataTypes.STRING(50),
                 defaultValue: 'combo',
             },
             isActive: {

@@ -15,6 +15,7 @@ const showtimeRoutes = require('./showtime.routes');
 const bookingRoutes = require('./booking.routes');
 const adminRoutes = require('./admin.routes');
 const concessionRoutes = require('./concession.routes');
+const concessionCategoryRoutes = require('./concession_category.routes');
 
 // API Info
 router.get('/', (req, res) => {
@@ -56,5 +57,6 @@ router.use('/showtimes', showtimeRoutes);
 router.use('/bookings', bookingRoutes);
 router.use('/admin', adminRoutes);
 router.use('/concessions', concessionRoutes);
+router.use('/concession-categories', concessionCategoryRoutes);
 
 module.exports = router;
