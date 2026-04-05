@@ -3,7 +3,10 @@ const { Concession } = require('../../models');
 class ConcessionController {
     async getAll(req, res) {
         try {
-            const where = { isActive: true };
+            const where = {};
+            if (req.query.isActive !== undefined) {
+                where.isActive = req.query.isActive === 'true';
+            }
             if (req.query.category) {
                 where.category = req.query.category;
             }
