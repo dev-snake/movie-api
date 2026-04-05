@@ -14,8 +14,8 @@ class MovieTypeController {
 
     async create(req, res) {
         try {
-            const { name, color, sortOrder } = req.body;
-            const mt = await MovieType.create({ name, color, sortOrder });
+            const { name, sortOrder } = req.body;
+            const mt = await MovieType.create({ name, sortOrder });
             res.status(201).json({ success: true, data: mt });
         } catch (error) {
             if (error.name === 'SequelizeUniqueConstraintError') {
@@ -29,8 +29,8 @@ class MovieTypeController {
         try {
             const mt = await MovieType.findByPk(req.params.id);
             if (!mt) return res.status(404).json({ success: false, message: 'Không tìm thấy loại phim' });
-            const { name, color, sortOrder } = req.body;
-            await mt.update({ name, color, sortOrder });
+            const { name, sortOrder } = req.body;
+            await mt.update({ name, sortOrder });
             res.json({ success: true, data: mt });
         } catch (error) {
             if (error.name === 'SequelizeUniqueConstraintError') {

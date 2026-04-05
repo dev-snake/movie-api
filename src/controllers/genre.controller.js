@@ -32,9 +32,9 @@ class GenreController {
     // Tạo thể loại mới (Admin)
     async createGenre(req, res) {
         try {
-            const { name, description, color, sortOrder } = req.body;
+            const { name, description, sortOrder } = req.body;
 
-            const genre = await Genre.create({ name, description, color, sortOrder });
+            const genre = await Genre.create({ name, description, sortOrder });
 
             res.status(201).json({ success: true, data: genre });
         } catch (error) {
@@ -51,8 +51,8 @@ class GenreController {
                 return res.status(404).json({ success: false, message: 'Genre not found' });
             }
 
-            const { name, description, color, sortOrder } = req.body;
-            await genre.update({ name, description, color, sortOrder });
+            const { name, description, sortOrder } = req.body;
+            await genre.update({ name, description, sortOrder });
 
             res.json({ success: true, data: genre });
         } catch (error) {

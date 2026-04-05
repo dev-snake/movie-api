@@ -14,10 +14,10 @@ class ConcessionCategoryController {
 
     async create(req, res) {
         try {
-            const { name, color, sortOrder } = req.body;
+            const { name, sortOrder } = req.body;
             if (!name) return res.status(400).json({ success: false, message: 'Tên danh mục là bắt buộc' });
 
-            const category = await ConcessionCategory.create({ name, color, sortOrder });
+            const category = await ConcessionCategory.create({ name, sortOrder });
             res.status(201).json({ success: true, data: category });
         } catch (error) {
             if (error.name === 'SequelizeUniqueConstraintError') {
@@ -32,8 +32,8 @@ class ConcessionCategoryController {
             const category = await ConcessionCategory.findByPk(req.params.id);
             if (!category) return res.status(404).json({ success: false, message: 'Không tìm thấy danh mục' });
 
-            const { name, color, sortOrder } = req.body;
-            await category.update({ name, color, sortOrder });
+            const { name, sortOrder } = req.body;
+            await category.update({ name, sortOrder });
             res.json({ success: true, data: category });
         } catch (error) {
             res.status(500).json({ success: false, message: error.message });
