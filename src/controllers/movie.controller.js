@@ -1,4 +1,4 @@
-const { Movie, Genre, Episode } = require('../../models');
+const { Movie, Genre, Episode, Comment, Favorite, Showtime, Booking, BookingSeat } = require('../../models');
 const { Pagination, QueryBuilder, ApiFeatures } = require('../utils');
 
 class MovieController {
@@ -166,13 +166,35 @@ class MovieController {
     async deleteMovie(req, res) {
         try {
             const movie = await Movie.findByPk(req.params.id);
+            if (!movie) return res.status(404).json({ success: false, message: 'Movie not found' });
 
-            if (!movie) {
-                return res.status(404).json({ success: false, message: 'Movie not found' });
+            // Check for active (non-cancelled) bookings via showtimes
+            const showtimes = await Showtime.findAll({ where: { movieId: movie.id }, attributes: ['id'] });
+            const showtimeIds = showtimes.map(s => s.id);
+            if (showtimeIds.length > 0) {
+                const activeCount = await Booking.count({
+                    where: { showtimeId: showtimeIds, status: ['pending', 'confirmed'] }
+                });
+                if (activeCount > 0) {
+                    return res.status(409).json({ success: false, message: `Không thể xóa: phim có ${activeCount} đặt vé chưa hủy. Hãy hủy các đặt vé trước.` });
+                }
+                // Cascade: bookingSeats → bookings → showtimes
+                const bookings = await Booking.findAll({ where: { showtimeId: showtimeIds }, attributes: ['id'] });
+                const bookingIds = bookings.map(b => b.id);
+                if (bookingIds.length > 0) {
+                    await BookingSeat.destroy({ where: { bookingId: bookingIds } });
+                    await Booking.destroy({ where: { id: bookingIds } });
+                }
+                await Showtime.destroy({ where: { id: showtimeIds } });
             }
 
+            // Destroy other FK children
+            await Comment.destroy({ where: { movieId: movie.id } });
+            await Favorite.destroy({ where: { movieId: movie.id } });
+            await Episode.destroy({ where: { movieId: movie.id } });
+
             await movie.destroy();
-            res.json({ success: true, message: 'Movie deleted successfully' });
+            res.json({ success: true, message: 'Đã xóa phìm thành công' });
         } catch (error) {
             res.status(500).json({ success: false, message: error.message });
         }
