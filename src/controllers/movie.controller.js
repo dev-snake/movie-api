@@ -26,8 +26,10 @@ class MovieController {
                 },
             });
 
-            // Thêm default status nếu không có
-            if (!req.query.status) {
+            // 'all' → admin bypass; no status → default 'published' for public
+            if (req.query.status === 'all') {
+                delete queryOptions.where.status;
+            } else if (!req.query.status) {
                 queryOptions.where.status = 'published';
             }
 

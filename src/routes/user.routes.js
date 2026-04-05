@@ -75,6 +75,7 @@ router.put('/profile', authenticate, userController.updateProfile);
  *         description: Thành công
  */
 router.get('/', authenticate, isAdmin, userController.getAllUsers);
+router.post('/', authenticate, isAdmin, userController.createUser);
 
 /**
  * @swagger

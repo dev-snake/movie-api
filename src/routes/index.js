@@ -14,6 +14,7 @@ const screenRoutes = require('./screen.routes');
 const showtimeRoutes = require('./showtime.routes');
 const bookingRoutes = require('./booking.routes');
 const adminRoutes = require('./admin.routes');
+const concessionRoutes = require('./concession.routes');
 
 // API Info
 router.get('/', (req, res) => {
@@ -34,6 +35,7 @@ router.get('/', (req, res) => {
             showtimes: '/api/showtimes',
             bookings: '/api/bookings',
             admin: '/api/admin',
+            concessions: '/api/concessions',
         },
         documentation: '/api-docs',
     });
@@ -53,5 +55,6 @@ router.use('/screens', screenRoutes);
 router.use('/showtimes', showtimeRoutes);
 router.use('/bookings', bookingRoutes);
 router.use('/admin', adminRoutes);
+router.use('/concessions', concessionRoutes);
 
 module.exports = router;

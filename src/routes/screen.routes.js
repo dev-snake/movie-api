@@ -75,18 +75,18 @@ router.get('/:id', screenController.getScreenById);
  *                 description: ID của rạp
  *               name:
  *                 type: string
- *                 description: Tên phòng chiếu (VD: Phòng 1)
+ *                 description: "Tên phòng chiếu (VD: Phòng 1)"
  *               rows:
  *                 type: integer
- *                 description: Số hàng ghế (VD: 8 hàng từ A-H)
+ *                 description: "Số hàng ghế (VD: 8 hàng từ A-H)"
  *               seatsPerRow:
  *                 type: integer
- *                 description: Số ghế mỗi hàng (VD: 12)
+ *                 description: "Số ghế mỗi hàng (VD: 12)"
  *               vipRows:
  *                 type: array
  *                 items:
  *                   type: string
- *                 description: Các hàng VIP (VD: ["A", "B"])
+ *                 description: "Các hàng VIP (VD: [\"A\", \"B\"])"
  *           example:
  *             theaterId: 1
  *             name: "Phòng 1"
