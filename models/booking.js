@@ -26,6 +26,10 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.ENUM('pending', 'confirmed', 'cancelled'),
                 defaultValue: 'pending',
             },
+            paymentMethod: {
+                type: DataTypes.STRING(50),
+                allowNull: true,
+            },
         },
         {
             tableName: 'bookings',

@@ -8,7 +8,7 @@ class BookingController {
         const t = await sequelize.transaction();
 
         try {
-            const { showtimeId, seatIds } = req.body;
+            const { showtimeId, seatIds, paymentMethod } = req.body;
             const userId = req.user.id;
 
             // Validate input
@@ -92,6 +92,7 @@ class BookingController {
                     showtimeId,
                     totalAmount,
                     status: 'confirmed', // Xác nhận ngay (không có payment gateway)
+                    paymentMethod: paymentMethod || null,
                 },
                 { transaction: t },
             );
