@@ -22,6 +22,16 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING(100),
                 allowNull: true,
             },
+            color: {
+                type: DataTypes.STRING(20),
+                allowNull: true,
+                defaultValue: '#E50914',
+            },
+            sortOrder: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                defaultValue: 0,
+            },
         },
         {
             tableName: 'genres',

@@ -5,7 +5,7 @@ class GenreController {
     async getAllGenres(req, res) {
         try {
             const genres = await Genre.findAll({
-                order: [['name', 'ASC']],
+                order: [['sortOrder', 'ASC'], ['name', 'ASC']],
             });
 
             res.json({ success: true, data: genres });
@@ -32,9 +32,9 @@ class GenreController {
     // Tạo thể loại mới (Admin)
     async createGenre(req, res) {
         try {
-            const { name, description } = req.body;
+            const { name, description, color, sortOrder } = req.body;
 
-            const genre = await Genre.create({ name, description });
+            const genre = await Genre.create({ name, description, color, sortOrder });
 
             res.status(201).json({ success: true, data: genre });
         } catch (error) {
@@ -51,8 +51,8 @@ class GenreController {
                 return res.status(404).json({ success: false, message: 'Genre not found' });
             }
 
-            const { name, description } = req.body;
-            await genre.update({ name, description });
+            const { name, description, color, sortOrder } = req.body;
+            await genre.update({ name, description, color, sortOrder });
 
             res.json({ success: true, data: genre });
         } catch (error) {

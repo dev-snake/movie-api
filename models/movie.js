@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
                 defaultValue: 0,
             },
             type: {
-                type: DataTypes.ENUM('single', 'series'),
+                type: DataTypes.STRING(50),
                 defaultValue: 'single',
             },
             status: {

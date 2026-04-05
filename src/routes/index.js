@@ -16,6 +16,7 @@ const bookingRoutes = require('./booking.routes');
 const adminRoutes = require('./admin.routes');
 const concessionRoutes = require('./concession.routes');
 const concessionCategoryRoutes = require('./concession_category.routes');
+const movieTypeRoutes = require('./movie_type.routes');
 
 // API Info
 router.get('/', (req, res) => {
@@ -58,5 +59,6 @@ router.use('/bookings', bookingRoutes);
 router.use('/admin', adminRoutes);
 router.use('/concessions', concessionRoutes);
 router.use('/concession-categories', concessionCategoryRoutes);
+router.use('/movie-types', movieTypeRoutes);
 
 module.exports = router;
