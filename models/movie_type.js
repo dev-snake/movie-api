@@ -33,14 +33,16 @@ module.exports = (sequelize, DataTypes) => {
             tableName: 'movie_types',
             timestamps: true,
             hooks: {
-                beforeCreate: (mt) => {
+                beforeValidate: (mt) => {
                     if (!mt.slug) {
-                        mt.slug = mt.name.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+                        const base = mt.name.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-').replace(/^-|-$/g, '');
+                        mt.slug = base || `type-${Date.now()}`;
                     }
                 },
                 beforeUpdate: (mt) => {
                     if (mt.changed('name') && !mt.changed('slug')) {
-                        mt.slug = mt.name.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+                        const base = mt.name.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-').replace(/^-|-$/g, '');
+                        mt.slug = base || `type-${Date.now()}`;
                     }
                 },
             },

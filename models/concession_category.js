@@ -33,14 +33,16 @@ module.exports = (sequelize, DataTypes) => {
             tableName: 'concession_categories',
             timestamps: true,
             hooks: {
-                beforeCreate: (cat) => {
+                beforeValidate: (cat) => {
                     if (!cat.slug) {
-                        cat.slug = cat.name.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+                        const base = cat.name.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-').replace(/^-|-$/g, '');
+                        cat.slug = base || `cat-${Date.now()}`;
                     }
                 },
                 beforeUpdate: (cat) => {
                     if (cat.changed('name') && !cat.changed('slug')) {
-                        cat.slug = cat.name.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+                        const base = cat.name.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-').replace(/^-|-$/g, '');
+                        cat.slug = base || `cat-${Date.now()}`;
                     }
                 },
             },
