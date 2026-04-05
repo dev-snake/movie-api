@@ -151,24 +151,8 @@ class ShowtimeController {
                 where: {
                     screenId,
                     status: 'active',
-                    [Op.or]: [
-                        {
-                            startTime: {
-                                [Op.between]: [start, end],
-                            },
-                        },
-                        {
-                            endTime: {
-                                [Op.between]: [start, end],
-                            },
-                        },
-                        {
-                            [Op.and]: [
-                                { startTime: { [Op.lte]: start } },
-                                { endTime: { [Op.gte]: end } },
-                            ],
-                        },
-                    ],
+                    startTime: { [Op.lt]: end },
+                    endTime: { [Op.gt]: start },
                 },
             });
 
