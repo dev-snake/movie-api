@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { Movie, Genre, Episode, Comment, Favorite, Showtime, Booking, BookingSeat } = require('../../models');
 const { Pagination, QueryBuilder, ApiFeatures } = require('../utils');
 
@@ -5,13 +6,13 @@ class MovieController {
     // Lấy danh sách phim với phân trang và filter
     async getAllMovies(req, res) {
         try {
-            const { genre } = req.query;
+            const { genre, status } = req.query;
 
             // Sử dụng ApiFeatures để build query
+            // Không map trực tiếp 'status' để custom xử lý logic ở dưới
             const { queryOptions, pagination, builder } = ApiFeatures.buildListQuery(req.query, {
                 searchFields: ['title', 'description'],
                 filterFields: {
-                    status: 'eq',
                     type: 'eq',
                     releaseYear: 'eq',
                 },
@@ -26,11 +27,25 @@ class MovieController {
                 },
             });
 
-            // 'all' → admin bypass; no status → default 'published' for public
-            if (req.query.status === 'all') {
-                delete queryOptions.where.status;
-            } else if (!req.query.status) {
+            // Xử lý bộ lọc status (now_showing, coming_soon, special, all)
+            const currentYear = new Date().getFullYear();
+
+            // 'all' → admin bypass để xem cả draft; ngược lại mặc định là chỉ xem 'published'
+            if (status !== 'all') {
                 queryOptions.where.status = 'published';
+            }
+
+            switch (status) {
+                case 'now_showing':
+                    queryOptions.where.releaseYear = { [Op.lte]: currentYear };
+                    break;
+                case 'coming_soon':
+                    queryOptions.where.releaseYear = { [Op.gt]: currentYear };
+                    break;
+                case 'special':
+                    // Phim đặc biệt: đánh giá cao (vd >= 8.5)
+                    queryOptions.where.rating = { [Op.gte]: 8.5 };
+                    break;
             }
 
             // Include genres
