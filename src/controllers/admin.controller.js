@@ -8,7 +8,15 @@ class AdminController {
             const { startDate, endDate } = req.query;
 
             // Default: 30 ngày gần nhất
-            const end = endDate ? new Date(endDate) : new Date();
+            // When endDate is a date string (e.g. "2026-05-10"), new Date() defaults to midnight,
+            // which excludes all records created during that day. Set to end-of-day instead.
+            let end;
+            if (endDate) {
+                end = new Date(endDate);
+                end.setHours(23, 59, 59, 999);
+            } else {
+                end = new Date();
+            }
             const start = startDate ? new Date(startDate) : new Date(end.getTime() - 30 * 24 * 60 * 60 * 1000);
 
             // Tổng doanh thu
